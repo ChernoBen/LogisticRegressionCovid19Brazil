@@ -35,7 +35,7 @@ np.corrcoef(dados.NU_IDADE_N,dados.EVOLUCAO)
 def rotula(dataset):
     arr =[]
     dt = dataset
-    for item in dataset:
+    for item in dt:
         if item == 'S':
             arr.append(1)
         else:
