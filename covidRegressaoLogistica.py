@@ -10,6 +10,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import train_test_split
+import seaborn as sb
+%matplotlib inline
 
 
 #Carregando base de dados
@@ -27,7 +29,7 @@ plt.scatter(dados['NU_IDADE_N'],dados['EVOLUCAO'])
 
 #visualização do coeficiente de correlação entre o atributo "IDADE" e "evolucao"
 #para saber se a relação é positiva e qual a força da correlação 
-np.corrcoef(dados.NU_IDADE_N,dados.EVOLUCAO)
+coef_view = np.corrcoef(dados.NU_IDADE_N,dados.EVOLUCAO)
 
 
 #CRIACAO das variaveis X e Y (variavel independente e variavel dependente)
@@ -61,6 +63,7 @@ modelo.intercept_
 
 #gera grafico de disperção que mostra a linha de melhor ajuste para o modelo
 plt.scatter(X,y)
+plt.scatter(X_train,y_train)
 #geração de novos dados para gerar a funcao sigmoide
 #x_teste = np.linspace(10,50,100)
 #implementacao da funcao sigmoide
@@ -70,6 +73,7 @@ def model(x):
 r = model(X_test*modelo.coef_ + modelo.intercept_).ravel()
 plt.plot(X_test,r,color='red')
 
+
 #modelo criado agora fazer as previsoes
 
 #carregamento da base de dados com os novos 
@@ -77,7 +81,7 @@ base_previsoes = X_test
 base_previsoes
 
 #mudanda dos dados formato de matriz
-despesas = base_previsoes.iloc[:,1].values
+despesas = base_previsoes
 despesas = despesas.reshape(-1,1)
 
 #previsões e geração de nova base de dados com os valores originais e as previsoes
