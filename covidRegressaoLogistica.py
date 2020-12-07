@@ -62,7 +62,7 @@ modelo.intercept_
 #gera grafico de disperção que mostra a linha de melhor ajuste para o modelo
 plt.scatter(X,y)
 #geração de novos dados para gerar a funcao sigmoide
-x_teste = np.linspace(10,50,100)
+#x_teste = np.linspace(10,50,100)
 #implementacao da funcao sigmoide
 def model(x):
     return 1/(1+ np.exp(-x))
