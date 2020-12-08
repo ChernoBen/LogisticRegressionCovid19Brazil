@@ -8,6 +8,19 @@ dados = pd.read_csv('https://raw.githubusercontent.com/ChernoBen/IAatividadeII/m
                  sep= ';')
 df = dados[['NU_IDADE_N','FATOR_RISC','EVOLUCAO']]
 df.head()
+
+def rotula(dataset,param):
+    arr =[]
+    param = param
+    dt = dataset
+    for item in dt:
+        if item == param:
+            arr.append(1)
+        else:
+            arr.append(0)
+    return arr
+
+df['FATOR_RISC'] = rotula(df['FATOR_RISC'],'S')
 #separa bases em instacias de obito e cura
 positivo = df[df['EVOLUCAO'].isin([1])]
 negativo = df[df['EVOLUCAO'].isin([0])]
@@ -72,8 +85,8 @@ def binary_cross_entropy(W,X,y):
 #implementação do gradiente
 def gradiente_descendente(W,X,y,alpha,epoch):
 	cost = np.zeros(epoch)
-	for i in range(epoch)
-		W = (W-(alpha/len(X))*np.sum(sigmoid(X@W.T) - y)*X,axis=0)
+	for i in range(epoch):
+		W = W - (alpha/len(X)) * np.sum((sigmoid(X@W.T- y)*X, axis= 0)
 		#custo
 		custo[i] = binary_cross_entropy(W,X,y)
 		return W,custo
