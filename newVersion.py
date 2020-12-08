@@ -25,7 +25,7 @@ ax.set_ylabel('obitos')
 #pré processamento de dados
 n_features = len(df.columns)-1
 
-X = np.array(df.drop(''))
+X = np.array(df.drop('EVOLUCAO',1))
 y = df.iloc[:,n_features:n_features+1].values
 
 #declarando veotresd de media e desvio padrão na padronização para classificação futura
