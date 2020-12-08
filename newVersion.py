@@ -86,7 +86,7 @@ def binary_cross_entropy(W,X,y):
 def gradiente_descendente(W,X,y,alpha,epoch):
 	cost = np.zeros(epoch)
 	for i in range(epoch):
-		W = W - (alpha/len(X)) * np.sum((sigmoid(X@W.T- y)*X, axis= 0)
+		W = W - (alpha/len(X)) * np.sum((sigmoid(X @ W.T- y)*X,axis=0))
 		#custo
 		custo[i] = binary_cross_entropy(W,X,y)
 		return W,custo
