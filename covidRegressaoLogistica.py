@@ -47,7 +47,6 @@ coef_view = np.corrcoef(dados.NU_IDADE_N,dados.EVOLUCAO)
 #CRIACAO das variaveis X e Y (variavel independente e variavel dependente)
 #transformação de X para o formato de matriz adicionando um novo eixo (newexis)
 
-
 X = dados.iloc[:,1].values
 #tranforma X para formato Matriz
 X = X[:,np.newaxis]
@@ -68,7 +67,7 @@ plt.scatter(X,y)
 
 #geração de novos dados para gerar a funcao sigmoide
 #theta0
-x_teste = np.linspace(1,150,10000)
+x_teste = np.linspace(-3,150,30000)
 #implementacao da funcao sigmoide
 def model(x):
     return 1/(1+ np.exp(-x))
@@ -93,6 +92,10 @@ base_previsoes = np.column_stack((base_previsoes,previsoes_teste))
 base_previsoes
 
 
-
+'''sigmoide explica a correlação entre a idade e obito
+não quer dizer que exista uma causalidade entre a idade e obitos mas sim que x idade
+ y% de chances de morrer
+talvez utilizar train test split para a linha 84
+ '''
 
 
