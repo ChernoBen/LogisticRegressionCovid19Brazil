@@ -98,6 +98,7 @@ não quer dizer que exista uma causalidade entre a idade e obitos mas sim que x 
 tasks:
     calcular erros
     utilizar train test split para a linha 84
+    aplicar gradiente
     
  '''
 
