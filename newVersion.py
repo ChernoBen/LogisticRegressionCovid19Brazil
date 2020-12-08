@@ -9,6 +9,9 @@ dados = pd.read_csv('https://raw.githubusercontent.com/ChernoBen/IAatividadeII/m
 df = dados[['NU_IDADE_N','FATOR_RISC','EVOLUCAO']]
 df.head()
 
+#remoçãode casos com valores diferentes de obito e cura
+df  = df.drop(df[df['EVOLUCAO'] > 2 ].index)
+df  = df.drop(df[df['EVOLUCAO'] < 1  ].index)
 def rotula(dataset,param):
     arr =[]
     param = param
@@ -19,8 +22,9 @@ def rotula(dataset,param):
         else:
             arr.append(0)
     return arr
-
+#rotulando lados
 df['FATOR_RISC'] = rotula(df['FATOR_RISC'],'S')
+df['EVOLUCAO'] = rotula(df['EVOLUCAO'],1)
 #separa bases em instacias de obito e cura
 positivo = df[df['EVOLUCAO'].isin([1])]
 negativo = df[df['EVOLUCAO'].isin([0])]
@@ -63,7 +67,7 @@ W = np.random.rand(1,n_features)
 #craindo sigmoid
 
 def sigmoid(z):
-	return 1/ (1+np.exp(-z))
+	return 1/(1+np.exp(-z))
 
 #visualizando sigmoid com distribuição de dados aleatorios
 nums = np.arange(-10,10,step=1)
@@ -86,7 +90,8 @@ def binary_cross_entropy(W,X,y):
 def gradiente_descendente(W,X,y,alpha,epoch):
 	cost = np.zeros(epoch)
 	for i in range(epoch):
-		W = W - (alpha/len(X)) * np.sum((sigmoid(X @ W.T- y)*X,axis=0))
+        #rodapé 
+		W = W - (alpha/len(X)) * np.sum(sigmoid(X @ W.T- y)*X,axis=1)
 		#custo
 		custo[i] = binary_cross_entropy(W,X,y)
 		return W,custo
@@ -123,12 +128,19 @@ paciente1 = (paciente1-mean)/std
 paciente1 = insert_ones(paciente1)
 
 #verificando a probabilidade de morrer ou não
-sigmoid(paciente1@W.T)
+sigmoid(paciente1 @ W.T)
 
 #verificando a predição
 predi(W,paciente1)
 
-
+#rodapé
+'''
+1*
+You are transposing a Matrix with 3 rows and 1 column to a Matrix with 3 columns and 1 row. 
+Then you are multplying it with a similar Matrix (also 3 columns 1 row) which is incorrect mathematically. 
+So you can either remove the transpose function or define your R Matrix as 1 row 3 columns and then transpose it. 
+Check this for further information.
+'''
 
 
 
