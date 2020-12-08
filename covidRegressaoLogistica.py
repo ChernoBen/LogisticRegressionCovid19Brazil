@@ -81,11 +81,11 @@ base_previsoes = x_teste
 base_previsoes
 
 #mudanda dos dados formato de matriz
-despesas = base_previsoes
-despesas = despesas.reshape(-1,1)
+obitos = base_previsoes
+obitoss = obitos.reshape(-1,1)
 
 #previsões e geração de nova base de dados com os valores originais e as previsoes
-previsoes_teste = modelo.predict(despesas)
+previsoes_teste = modelo.predict(obitos)
 previsoes_teste
 
 base_previsoes = np.column_stack((base_previsoes,previsoes_teste))

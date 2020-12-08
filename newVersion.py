@@ -4,7 +4,8 @@ import matplotlib.pyplot as plt
 
 %matplotlib inline
 
-df = pd.read_csv('admissão.csv')
+df = pd.read_csv('https://raw.githubusercontent.com/ChernoBen/IAatividadeII/main/new_dataset',
+                 sep= ';')
 df.head()
 #separa bases em instacias de obito e cura
 positivo = df[df['EVOLUCAO'].isin([1])]
