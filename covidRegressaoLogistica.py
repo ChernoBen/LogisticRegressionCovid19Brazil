@@ -68,7 +68,7 @@ plt.scatter(X,y)
 
 #geração de novos dados para gerar a funcao sigmoide
 #theta0
-x_teste = np.linspace(0,150)
+x_teste = np.linspace(1,150,10000)
 #implementacao da funcao sigmoide
 def model(x):
     return 1/(1+ np.exp(-x))
