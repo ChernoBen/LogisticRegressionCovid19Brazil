@@ -94,8 +94,11 @@ base_previsoes
 
 '''sigmoide explica a correlação entre a idade e obito
 não quer dizer que exista uma causalidade entre a idade e obitos mas sim que x idade
- y% de chances de morrer
-talvez utilizar train test split para a linha 84
+
+tasks:
+    calcular erros
+    utilizar train test split para a linha 84
+    
  '''
 
 
