@@ -1,11 +1,12 @@
 import numpy as np 
 import pandas as pd 
 import matplotlib.pyplot as plt 
-
 %matplotlib inline
 
-df = pd.read_csv('https://raw.githubusercontent.com/ChernoBen/IAatividadeII/main/new_dataset',
+
+dados = pd.read_csv('https://raw.githubusercontent.com/ChernoBen/IAatividadeII/main/new_dataset',
                  sep= ';')
+df = dados[['NU_IDADE_N','FATOR_RISC','EVOLUCAO']]
 df.head()
 #separa bases em instacias de obito e cura
 positivo = df[df['EVOLUCAO'].isin([1])]
@@ -24,7 +25,7 @@ ax.set_ylabel('obitos')
 #pré processamento de dados
 n_features = len(df.columns)-1
 
-X = np.array(drop('curados'))
+X = np.array(df.drop(''))
 y = df.iloc[:,n_features:n_features+1].values
 
 #declarando veotresd de media e desvio padrão na padronização para classificação futura
