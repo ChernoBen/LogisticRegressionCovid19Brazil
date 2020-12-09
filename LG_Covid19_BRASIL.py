@@ -14,16 +14,17 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 
 
-dados = pd.read_csv('C:/Users/MasterTecnologia/Documents/classificadores/base/INFLUD-30-11-2020.csv',sep= ';')
+dados = pd.read_csv('C:/Users/Benjamim/Desktop/bases/INFLUD-30-11-2020.csv',sep= ';')
 #Tratamento de dados da base original
-df = dados[['NU_IDADE_N','FATOR_RISC','EVOLUCAO']]
+df = dados[['NU_IDADE_N','FATOR_RISC','UTI','EVOLUCAO']]
 df.head()
 
 #removendo valores Nan (not a number)
 #a) Remoção de casos de SRAG não diagnosticados como COVID-19
 df = df.dropna()
 #Lista de indices para melhor manipulação de variaveis da base
-dicio = ['EVOLUCAO']
+#basicamente a maioria dos mortos tiveram que passar pela UTI
+dicio = ['EVOLUCAO','UTI']
 #rolutador binario de intancias para matrizes, np.array's e etc.
 #b)Remoção de variáveis relacionadas ao óbito (data do óbito e número da declaração de óbito)
 '''
@@ -42,6 +43,7 @@ def rotula(dataset,param):
         else:
             arr.append(0)
     return arr
+
 for indice in range(len(dicio)):
     # EM INDICE remova valores diferentes de positivo e negativo para os casos
     df  = df.drop(df[df[dicio[indice]] > 2 ].index)
@@ -53,9 +55,9 @@ df['FATOR_RISC'] = rotula(df['FATOR_RISC'],'S')
 
 
 #c) Seleção e tratamento de variáveis;
-X = df[['NU_IDADE_N','FATOR_RISC']].values
+X = df[['NU_IDADE_N','FATOR_RISC','UTI']].values
 y = df['EVOLUCAO'].values
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.25, random_state=42)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.30, random_state=42)
 
 #d) Treino de classificador para classificar entre “óbito por COVID-19” e “cura” (informação da coluna “EVOLUCAO”);
 #Regressão logistica
@@ -75,21 +77,13 @@ print(confusion_matrix(y_test, previsoes))
 matriz_de_confusao = confusion_matrix(y_test, previsoes)
 # previsão de probabilidades
 probabPrevi = classificador.predict_proba(X_test)[:,1]
+print(acuracia,probabPrevi)
 
 #grafico p/avaliação
 novaBase = pd.DataFrame(X_test)
 novaBase['Result'] = y_test
 sns.pairplot(novaBase,hue='Result')
-'''
-sns.pairplot(novaBase,hue='Result')
 
-sns.pairplot(novaBase, hue = 'Result', diag_kind = 'kde',plot_kws = {'alpha': 0.6, 's': 80, 'edgecolor': 'k'},size = 4);
-plt.suptitle('Evolução de pacientes com covide Idade X Fator de risco', 
-             size = 15);
-
-sns.scatterplot(data=novaBase, x=0, y=1, hue='Result');
-plt.plot(X_test,retaSigma,color='red')
-'''
 
 
 
