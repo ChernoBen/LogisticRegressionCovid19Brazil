@@ -54,13 +54,13 @@ df['FATOR_RISC'] = rotula(df['FATOR_RISC'],'S')
 #c) Seleção e tratamento de variáveis;
 X = df[['NU_IDADE_N','FATOR_RISC']].values
 y = df['EVOLUCAO'].values
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.30, random_state=42)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.25, random_state=0)
 
 #d) Treino de classificador para classificar entre “óbito por COVID-19” e “cura” (informação da coluna “EVOLUCAO”);
 #Regressão logistica
 # instancia o classificador 
 classificador = LogisticRegression()
-# treina o modelo
+# treina o classificador
 classificador.fit(X_train, y_train)
 # faz predicao e salva em previoes
 classificador.predict(X_test)
@@ -75,28 +75,25 @@ matriz_de_confusao = confusion_matrix(y_test, previsoes)
 # previsão de probabilidades
 probabPrevi = classificador.predict_proba(X_test)[:,1]
 
-
-
-
+#grafico p/avaliação
 novaBase = pd.DataFrame(X_test)
 novaBase['Result'] = y_test
-
+'''
 sns.pairplot(novaBase,hue='Result')
 
-'''sns.pairplot(novaBase, hue = 'Result', diag_kind = 'kde',plot_kws = {'alpha': 0.6, 's': 80, 'edgecolor': 'k'},size = 4);
+sns.pairplot(novaBase, hue = 'Result', diag_kind = 'kde',plot_kws = {'alpha': 0.6, 's': 80, 'edgecolor': 'k'},size = 4);
 plt.suptitle('Evolução de pacientes com covide Idade X Fator de risco', 
              size = 15);
 
 sns.scatterplot(data=novaBase, x=0, y=1, hue='Result');
-
-plt.scatter(dados['NU_IDADE_N'],dados['EVOLUCAO'])
-plt.plot(x_teste,r,color='red')
+plt.plot(X_test,retaSigma,color='red')
 '''
 #sigmoide
 def sigmoide(x):
     return 1/(1+np.exp(-x))
 
-retaSigma = sigmoide(X_test * classificador.coef_ + classificador.intercept_).ravel()
+z = X_test * classificador.coef_ + classificador.intercept_
+retaSigma = sigmoide(z).ravel()
 
 
 
