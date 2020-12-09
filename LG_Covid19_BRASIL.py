@@ -14,7 +14,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 
 
-dados = pd.read_csv('C:/Users/Benjamim/Desktop/bases/INFLUD-30-11-2020.csv',sep= ';')
+dados = pd.read_csv('C:/Users/MasterTecnologia/Documents/classificadores/base/INFLUD-30-11-2020.csv',sep= ';')
 #Tratamento de dados da base original
 df = dados[['NU_IDADE_N','FATOR_RISC','EVOLUCAO']]
 df.head()
@@ -47,7 +47,7 @@ for indice in range(len(dicio)):
     df  = df.drop(df[df[dicio[indice]] > 2 ].index)
     df  = df.drop(df[df[dicio[indice]] < 1  ].index)
     # o score muda dependendo da classe que for rolulada como 1
-    df[dicio[indice]] = rotula(df[dicio[indice]],2)   
+    df[dicio[indice]] = rotula(df[dicio[indice]],1)   
 #rotulando lados 1 == cura
 df['FATOR_RISC'] = rotula(df['FATOR_RISC'],'S')
 
@@ -55,7 +55,7 @@ df['FATOR_RISC'] = rotula(df['FATOR_RISC'],'S')
 #c) Seleção e tratamento de variáveis;
 X = df[['NU_IDADE_N','FATOR_RISC']].values
 y = df['EVOLUCAO'].values
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.30, random_state=0)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.25, random_state=42)
 
 #d) Treino de classificador para classificar entre “óbito por COVID-19” e “cura” (informação da coluna “EVOLUCAO”);
 #Regressão logistica
@@ -90,12 +90,7 @@ plt.suptitle('Evolução de pacientes com covide Idade X Fator de risco',
 sns.scatterplot(data=novaBase, x=0, y=1, hue='Result');
 plt.plot(X_test,retaSigma,color='red')
 '''
-#sigmoide
-def sigmoide(x):
-    return 1/(1+np.exp(-x))
 
-z = X_test * classificador.coef_ + classificador.intercept_
-retaSigma = sigmoide(z).ravel()
 
 
 
