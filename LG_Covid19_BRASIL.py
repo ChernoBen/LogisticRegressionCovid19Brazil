@@ -46,7 +46,8 @@ for indice in range(len(dicio)):
     # EM INDICE remova valores diferentes de positivo e negativo para os casos
     df  = df.drop(df[df[dicio[indice]] > 2 ].index)
     df  = df.drop(df[df[dicio[indice]] < 1  ].index)
-    df[dicio[indice]] = rotula(df[dicio[indice]],1)   
+    # o score muda dependendo da classe que for rolulada como 1
+    df[dicio[indice]] = rotula(df[dicio[indice]],2)   
 #rotulando lados 1 == cura
 df['FATOR_RISC'] = rotula(df['FATOR_RISC'],'S')
 
@@ -54,7 +55,7 @@ df['FATOR_RISC'] = rotula(df['FATOR_RISC'],'S')
 #c) Seleção e tratamento de variáveis;
 X = df[['NU_IDADE_N','FATOR_RISC']].values
 y = df['EVOLUCAO'].values
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.25, random_state=0)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.30, random_state=0)
 
 #d) Treino de classificador para classificar entre “óbito por COVID-19” e “cura” (informação da coluna “EVOLUCAO”);
 #Regressão logistica
@@ -78,6 +79,7 @@ probabPrevi = classificador.predict_proba(X_test)[:,1]
 #grafico p/avaliação
 novaBase = pd.DataFrame(X_test)
 novaBase['Result'] = y_test
+sns.pairplot(novaBase,hue='Result')
 '''
 sns.pairplot(novaBase,hue='Result')
 
